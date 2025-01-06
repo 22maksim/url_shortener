@@ -2,25 +2,23 @@ spring:
   application:
     name: url_shortener
 
-  profiles:
-    active: date
-
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/url_shortener_db
     username: user
     password: password
-    hikari:
-      maximum-pool-size: 10
 
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+    show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-    show-sql: true
+        cache:
+          use_second_level_cache:
+          use_query_cache:
 
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
@@ -36,7 +34,6 @@ spring:
           max-idle: 5
           min-idle: 2
           max-wait: 5000
-      database: 1
 
 server:
   port: 8080
@@ -44,3 +41,7 @@ server:
 logging:
   level:
     root: info
+
+async:
+  pools:
+    worker: Async-worker-
