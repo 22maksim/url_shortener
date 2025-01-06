@@ -1,0 +1,15 @@
+base62:
+  alphabet: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+
+async:
+  pools:
+    size: 5
+    maxSize: 20
+    maxQueueCapacity: 500
+    taskExecutorPoolPrefix: Task-executor-worker-
+
+unique-number:
+  batch: 10
+  start: 55_000_000_000
+  increment: 30
+
