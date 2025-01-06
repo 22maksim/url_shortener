@@ -9,8 +9,7 @@ import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.*;
 
 @EnableAsync
 @Configuration
@@ -23,18 +22,24 @@ public class ForkJoinPoolAsyncConfig implements AsyncConfigurer {
         return new ForkJoinPool();
     }
 
+    @Bean("myExecutor")
+    ExecutorService myExecutor() {
+        return Executors.newFixedThreadPool(5);
+    }
+
     @Bean(name = "taskExecutor")
-    TaskExecutor taskExecutor() {
+    TaskExecutor taskExecutorPool() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(asyncProperties.size());
         executor.setMaxPoolSize(asyncProperties.maxSize());
         executor.setQueueCapacity(asyncProperties.maxQueueCapacity());
         executor.setThreadNamePrefix(asyncProperties.taskExecutorPoolPrefix());
+        executor.initialize();
         return executor;
     }
 
     @Override
     public Executor getAsyncExecutor() {
-        return taskExecutor();
+        return taskExecutorPool();
     }
 }

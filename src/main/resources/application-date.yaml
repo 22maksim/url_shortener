@@ -6,10 +6,16 @@ async:
     size: 5
     maxSize: 20
     maxQueueCapacity: 500
-    taskExecutorPoolPrefix: Task-executor-worker-
+    taskExecutorPoolPrefix: Task-worker-
 
 unique-number:
-  batch: 10
+  batch: 140
   start: 55_000_000_000
-  increment: 30
+  increment: 155 # должен быть не больше 80% от cache.maxSize ########__
+
+cache:
+  maxSize: 200
+  percentage: 0.2
+
+cron: '0 0 0 * * *'
 

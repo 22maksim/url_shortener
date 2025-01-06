@@ -1,14 +1,15 @@
 package group_home.url_shortener.controlier;
 
+import group_home.url_shortener.model.dto.HashResponse;
+import group_home.url_shortener.model.dto.UrlRequest;
 import group_home.url_shortener.service.url.UrlService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -31,5 +32,10 @@ public class UrlController {
         return ResponseEntity.status(HttpStatus.FOUND)
                 .headers(headers)
                 .body(null);
+    }
+
+    @PostMapping("url")
+    public HashResponse getHashByUrl(@RequestBody @NotNull @Valid UrlRequest urlRequest) {
+        return urlService.getHashByUrl(urlRequest);
     }
 }

@@ -18,11 +18,10 @@ public class HashGenerator {
     private final HashRepository hashRepository;
     private final Base62Encoder base62Encoder;
 
-    @Async
-    @Transactional
+    @Async("taskExecutor")
     public void generateBatch() {
         List<Long> numbers = hashRepository.getUniqueNumbers();
-        if (numbers.isEmpty()) {
+        if (numbers == null || numbers.isEmpty()) {
             log.info("No unique numbers found");
             throw new DataNumberException("No unique numbers found");
         }
