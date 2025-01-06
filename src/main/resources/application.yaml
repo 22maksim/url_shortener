@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: url_shortener
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/url_shortener_db
+    username: user
+    password: password
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        cache:
+          use_second_level_cache:
+          use_query_cache:
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    enabled: true
+
+  data:
+    redis:
+      port: 6379
+      host: localhost
+      jedis:
+        pool:
+          max-active: 10
+          max-idle: 5
+          min-idle: 2
+          max-wait: 5000
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: info
+
+async:
+  pools:
+    worker: Async-worker-
